@@ -1,7 +1,14 @@
+"use client";
+
 import StoryCarouselComponent from "@/components/StoryCarouselComponent";
+import WalletIndicator from "@/components/wallet/WalletIndicator";
+import LoginComponent from "@/components/authentication/LoginComponent";
+
 import Image from "next/image";
 import * as Typewriter from "react-effect-typewriter";
-
+import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "@/context/MainContext";
 
 export default function Home() {
 	const movies = [
@@ -47,6 +54,15 @@ export default function Home() {
 		}
 	];
 
+    const [isMounted, setIsMounted] = useState<boolean>(false);
+    const [loginAuth, setLoginAuth] = useState<{ verifier: string, domain: string }|null>(null);
+	
+    const { 
+        loggedIn, setLoggedIn,
+        isLoggedIn, setIsLoggedIn,        
+    } = useContext(AppContext);
+
+
 
 	return (
 		<div className="min-h-screen bg-[#f9f9f9]">
@@ -56,6 +72,9 @@ export default function Home() {
 						<Image src="/logo/fable_new_logo.svg" alt="Fable logo" className=" " width={90} height={90} />
 
 					</div>
+
+					{/* <WalletIndicator /> */}
+
 					<div className="bg-[#D8D1DE3D] flex items-center p-2 gap-2 rounded-xl">
 						<div className="stories-btn text-xs">
 							Stories
@@ -79,14 +98,26 @@ export default function Home() {
 								</Typewriter.Paragraph>
 							{/* </p> */}
 						</Typewriter.Container>
-						<div className="flex">
-							<div className="bg-[#D8D1DE3D] flex items-center p-2 gap-2 rounded-xl">
-								<div className="stories-btn text-xs">
-									Stories
-								</div>
-								<div className="year-indicator bg-white text-lg rounded-lg px-2 font-semibold">200</div>
-							</div>
+
+						<div className="flex gap-5 items-center">
+							{/* <WalletIndicator />
+							<p>or</p> */}
+							{ !isLoggedIn && <LoginComponent /> }
+
+							{
+								<Link href="/on-boarding">
+									<div className="flex ">
+										<div className="bg-[#D8D1DE3D] cursor-pointer border  flex items-center p-3 gap-2 rounded-xl border-gray-50 hover:border-gray-200">
+											<div className="stories-btn text-xs">
+												See Stories
+											</div>
+											<div className="year-indicator bg-white text-lg rounded-lg px-2 font-semibold">200</div>
+										</div>
+									</div>
+								</Link>
+							}
 						</div>
+
 					</div>
 				</section>
 

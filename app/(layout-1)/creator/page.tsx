@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Image from "next/image";
 import StoryCardComponent from '@/components/story/StoryCardComponent';
 import RatingBtnComponent from '@/components/shared/RatingBtnComponent';
+import { UserAvatarComponent } from '@/components/shared/UserAvatarComponent';
+import AuthorComponent from '@/components/story/AuthorComponent';
 
 const CreatorPage = () => {
        const [activeControl, setActiveControl] = useState<'list' | 'grid'>('list');
@@ -43,13 +45,12 @@ const CreatorPage = () => {
             <div className="mt-[210px] px-20">
 
                 <div className="grid grid-cols-6 gap-12">
-                    <div className='col-span-4'>
-                        <Image 
-                            src="/avatar/male_avatar1.svg" 
-                            alt="Cole Palmer"
-                            width={100}
-                            height={100}
-                            className="rounded-xl"
+                    <div className='col-span-4'>                       
+                        <UserAvatarComponent
+                            width={100} 
+                            height={100} 
+                            borderRadius='rounded-xl'            
+                            imageUrl="/avatar/male_avatar1.svg"
                         />
 
                         <h1 className="font-bold mt-5 text-2xl">Cole Palmer</h1>
@@ -73,21 +74,21 @@ const CreatorPage = () => {
                                             alt="X solid icon"
                                             width={20}
                                             height={20}
-                                            className="rounded-xl"
+                                            className="rounded-xl cursor-pointer"
                                         />
                                         <Image 
                                             src="/icon/instagram-solid.svg" 
                                             alt="Instagram solid icon"
                                             width={20}
                                             height={20}
-                                            className="rounded-xl"
+                                            className="rounded-xl cursor-pointer"
                                         />
                                         <Image 
                                             src="/icon/facebook-solid.svg" 
                                             alt="Facebook solid icon"
                                             width={20}
                                             height={20}
-                                            className="rounded-xl"
+                                            className="rounded-xl cursor-pointer"
                                         />
                                         {/* <div className='flex items-center gap-2 bg-[#F5F5F5] rounded-xl p-2 cursor-pointer transition-all border border-[#F5F5F5] hover:border-amber-400'>
                                             <i className='bx bxs-star text-amber-400 text-md'></i>
@@ -152,21 +153,8 @@ const CreatorPage = () => {
 
                         { [1,2,3,4,5,6].map((item) => (
                             <div key={item} className="max-w-4xl mx-auto my-8 font-sans">
-                                <div className="flex items-center mb-4">
-                                    <div className="flex -space-x-2 mr-3">
-                                        <Image 
-                                            src="/avatar/male_avatar2.svg" 
-                                            alt="John Kwame"
-                                            width={36}
-                                            height={36}
-                                            className="rounded-full border-2 border-white"
-                                        />
-                                    </div>
-                                    <div className='text-[10px]'>
-                                        <span className="text-gray-600">By </span>
-                                        <span className="font-semibold">Cole Palmer </span>
-                                    </div>
-                                    <div className="ml-auto text-gray-500 text-[10px]">5min ago</div>
+                                <div className="mb-4">
+                                    <AuthorComponent count={1} />
                                 </div>
 
                                 <h1 className="text-lg font-bold text-gray-800 my-3">The deathly hallows of North Seria</h1>
@@ -176,7 +164,7 @@ const CreatorPage = () => {
                                 </p>
                     
                                 <div className="flex item-center justify-between">
-                                    <button className="px-5 py-2 bg-gray-100 text-gray-800 rounded-full text-[10px]">Read</button>
+                                    <button className="px-5 py-2 bg-gray-100 text-gray-800 cursor-pointer rounded-full text-[10px]">Read</button>
 
                                     <RatingBtnComponent />
                                 </div>

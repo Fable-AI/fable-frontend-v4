@@ -13,8 +13,8 @@ const StoryCardComponent = ({ activeControl }: { activeControl: string }) => {
             { activeControl === "list" && 
                 <div className='max-h-[800px] overflow-y-auto'>
                     <StoryListViewComponent image="/img/placeholder.png" authorCount={1} />
-                    <StoryListViewComponent image="/img/placeholder2.png" authorCount={2} />
-                    <StoryListViewComponent image="/img/placeholder3.png" authorCount={2} />
+                    <StoryListViewComponent image="/img/placeholder2.png" authorCount={1} />
+                    <StoryListViewComponent image="/img/placeholder3.png" authorCount={1} />
                     <StoryListViewComponent image="/img/placeholder.png" authorCount={1} />
                     <StoryListViewComponent image="/img/placeholder2.png" authorCount={1} />
                 </div> 

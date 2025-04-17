@@ -7,6 +7,8 @@ import TopRankingStoryComponent from '@/components/story/TopRankingStoryComponen
 import PopularStoryComponent from '@/components/story/PopularStoryComponent';
 import StoryListViewComponent from '@/components/story/StoryListViewComponent';
 import StoryGridViewComponent from '@/components/story/StoryGridViewComponent';
+import Link from 'next/link';
+import LayoutOneNavComponent from '@/components/navigation/LayoutOneNavComponent';
 
 const StoriesPage = () => {
     const [showGridIcon, setShowGridIcon] = useState<boolean>(false)
@@ -18,26 +20,7 @@ const StoriesPage = () => {
         <div className='min-h-screen bg-[#FBFBFB]'>
             <nav className='fixed top-0 left-0 w-full z-20 p-7 backdrop-blur-sm'>
 
-                <div className='flex justify-center w-full'>
-                    <div className='flex relative items-center justify-between gap-20 bg-white p-4 rounded-3xl'>
-                        <div className="flex items-center gap-7">
-                            <Image src="/logo/fable_new_logo.svg" alt="Fable logo" className=" " width={90} height={90} />
-                            <div className='bg-[#f9f9f9] py-1 px-3 gap-1 rounded-xl flex items-center'>
-                                <i className='bx bx-search text-xl'></i>
-                                <input type="text" placeholder='Search stories, creators, e.t.c' className='text-xs pr-4 py-2 outline-0' />
-                            </div>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                            <div className='flex cursor-pointer items-center gap-3 bg-[#f9f9f9] rounded-xl p-3'>
-                                <Image src="/icon/feather.svg" alt="feather icon" className=" " width={13} height={13} />
-                                <p className='text-xs'>Write</p>
-                            </div>
-
-                            <Image src="/avatar/default-avatar.svg" alt="default avatar" className=" " width={40} height={40} />
-                        </div>
-                    </div>
-                </div>
+                <LayoutOneNavComponent />
 
                 <div className="flex items-center justify-between mt-10 relative px-20">     
                     <div className="flex gap-9 items-center">                

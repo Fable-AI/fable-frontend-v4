@@ -3,6 +3,7 @@
 import { ThumbsDown, ThumbsUp } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
+import { UserAvatarAndNameComponent, UserAvatarComponent } from '../shared/UserAvatarComponent'
 
 const StoryCommentsComponent = () => {
     return (
@@ -21,13 +22,8 @@ const StoryCommentsComponent = () => {
             {/* Create comment */}
             <div className="mt-10">
                 <div className="flex items-center gap-1">
-                    <Image 
-                        src="/avatar/male_avatar1.svg" 
-                        alt="Cole Palmer"
-                        width={40}
-                        height={40}
-                        className="rounded-xl"
-                    />
+                    <UserAvatarComponent width={40} height={40} />
+                    
                     <span className="text-gray-900 font-semibold text-xs">Cole Palmer </span>
                 </div>
 
@@ -46,6 +42,7 @@ const StoryCommentsComponent = () => {
                             height={15}
                             className=""
                         />
+                        
                         <span className='text-xs'>Send</span>
                     </button>
                 </div>
@@ -58,7 +55,7 @@ const StoryCommentsComponent = () => {
                     [1,2,3,4,5].map(item => (
                         <div key={item} className='mb-7'>
                             <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
+                                {/* <div className="flex items-center gap-2">
                                     <Image 
                                         src="/avatar/male_avatar1.svg" 
                                         alt="Cole Palmer"
@@ -70,7 +67,9 @@ const StoryCommentsComponent = () => {
                                         <p className="text-gray-900 font-semibold text-xs">Samantha Austin </p>
                                         <p className="text-gray-700 font-light text-[10px]">@samAustin</p>
                                     </div>
-                                </div>
+                                </div> */}
+
+                                <UserAvatarAndNameComponent name="Samantha Austin" username="samAustin" />
 
                                 <p className='font-semibold text-xs'>2min ago</p>
                             </div>

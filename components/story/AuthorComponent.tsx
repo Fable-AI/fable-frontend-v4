@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import AuthorBioCardComponent from './AuthorBioCardComponent';
+import { UserAvatarComponent } from '../shared/UserAvatarComponent';
 
 const AuthorComponent = ({ count }: { count: number }) => {
     const [showBio, setShowBio] = useState<boolean>(false);
@@ -56,15 +57,13 @@ const AuthorComponent = ({ count }: { count: number }) => {
                 </>
             ) : (
                 <>
-                    <div className="flex mr-3">
-                        <Image 
-                            src="/avatar/male_avatar1.svg" 
-                            alt="Cole Palmer"
-                            width={36}
-                            height={36}
-                            className="rounded-full border-2 border-white"
-                        />
-                    </div>
+                    <UserAvatarComponent
+                        width={36} 
+                        height={36} 
+                        borderRadius='rounded-full'            
+                        imageUrl="/avatar/male_avatar1.svg"
+                        imageMargin='mr-3'
+                    />
                     <div className='text-[10px] relative'>
                         <span className="text-gray-600">By </span>
                         <span 

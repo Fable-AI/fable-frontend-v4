@@ -2,13 +2,16 @@
 
 import Image from 'next/image';
 import { Heart, MessageCircle, Share2, BookmarkPlus } from 'lucide-react';
+import { UserAvatarComponent } from '../shared/UserAvatarComponent';
+import AuthorComponent from './AuthorComponent';
+import Link from 'next/link';
 
-const PopularStoryComponent = ({ image }) => {
+const PopularStoryComponent = ({ image }: { image: string }) => {
   
     return (
         <div className="max-w-4xl mx-auto my-8 font-sans">
-            <div className="flex items-center mb-4">
-                <div className="flex -space-x-2 mr-3">
+            <div className=" mb-4">
+                {/* <div className="flex -space-x-2 mr-3">
                     <Image 
                         src="/avatar/male_avatar1.svg" 
                         alt="Cole Palmer"
@@ -23,14 +26,23 @@ const PopularStoryComponent = ({ image }) => {
                         height={36}
                         className="rounded-full border-2 border-white"
                     />
-                </div>
+                </div> */}
+                {/* <UserAvatarComponent
+                    width={36} 
+                    height={36} 
+                    borderRadius='rounded-full' 
+                    isDouble={false} 
+                    imageMargin='mr-3' 
+                    imageUrl="/avatar/male_avatar2.svg"
+                /> 
                 <div className='text-[10px]'>
                     <span className="text-gray-600">By </span>
                     <span className="font-semibold">Cole Palmer </span>
-                    <span className="text-gray-600">Ft </span>
-                    <span className="font-semibold">John Kwame</span>
                 </div>
-                <div className="ml-auto text-gray-500 text-[10px]">5min ago</div>
+                <div className="ml-auto text-gray-500 text-[10px]">5min ago</div> */}
+
+				<AuthorComponent count={1} />
+
             </div>
 
             <div className="relative w-full h-[130px] rounded-2xl overflow-hidden">
@@ -48,8 +60,9 @@ const PopularStoryComponent = ({ image }) => {
                 className="object-cover w-full"
                 />
             </div>
-            <h1 className="text-lg font-bold text-gray-800 my-3">The deathly hallows of North Seria</h1>
-
+            <Link href="/read-story">
+                <h1 className="text-lg font-bold text-gray-800 my-3 hover:underline">The deathly hallows of North Seria</h1>
+            </Link>
             <div className="flex item-center justify-between">
                 <p className="py-2 px-4 cursor-pointer bg-gray-100 text-gray-800 rounded-full text-xs">Read</p>
 

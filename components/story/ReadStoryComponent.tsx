@@ -11,6 +11,7 @@ import ShareBtnComponent from '@/components/shared/ShareBtnComponent';
 import RatingBtnComponent from '@/components/shared/RatingBtnComponent';
 import GenrePillsComponent from '@/components/shared/GenrePillsComponent';
 import Image from "next/image";
+import { UserAvatarComponent } from '../shared/UserAvatarComponent';
 
 const ReadStoryComponent = () => {
     return (
@@ -24,28 +25,20 @@ const ReadStoryComponent = () => {
             </div>
 
             <div className='mt-6 flex items-center justify-between'>
-                <div className="flex items-center">
-                    <div className="flex -space-x-2 mr-3">
-                        <Image
-                            src="/avatar/male_avatar1.svg"
-                            alt="Cole Palmer"
-                            width={36}
-                            height={36}
-                            className="rounded-full border-2 border-white"
-                        />
-                        <Image
-                            src="/avatar/male_avatar2.svg"
-                            alt="John Kwame"
-                            width={36}
-                            height={36}
-                            className="rounded-full border-2 border-white"
-                        />
-                    </div>
+                <div className="flex items-center">         
+                    <UserAvatarComponent
+                        width={36} 
+                        height={36} 
+                        borderRadius='rounded-full' 
+                        isDouble={false} 
+                        imageMargin='mr-3' 
+                        imageUrl="/avatar/male_avatar2.svg"
+                    /> 
                     <div className='text-[10px]'>
                         <span className="text-gray-600">By </span>
                         <span className="font-semibold">Cole Palmer </span>
-                        <span className="text-gray-600">Ft </span>
-                        <span className="font-semibold">John Kwame</span>
+                        {/* <span className="text-gray-600">Ft </span>
+                        <span className="font-semibold">John Kwame</span> */}
                     </div>
                 </div>
                 <div className="flex items-center text-gray-500 text-[10px]">

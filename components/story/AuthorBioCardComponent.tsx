@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react'
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface AuthorBioCardProps {
     setShowBio: React.Dispatch<React.SetStateAction<boolean>>;
@@ -66,7 +67,9 @@ const AuthorBioCardComponent: React.FC<AuthorBioCardProps> = ({
             </div>
 
             <div className="flex items-center mt-3 justify-between">
-                <p className='text-sm font-bold'>Cole Palmer</p>
+                <Link href="/creator">
+                    <p className='text-sm font-bold cursor-pointer hover:underline'>Cole Palmer</p>
+                </Link>
                 <p className='text-xs'>@Jmoos</p>
             </div>
             
