@@ -4,8 +4,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import AuthorBioCardComponent from './AuthorBioCardComponent';
 import { UserAvatarComponent } from '../shared/UserAvatarComponent';
+import { formatDate } from '@/lib/helper';
 
-const AuthorComponent = ({ count }: { count: number }) => {
+const AuthorComponent = ({ count, name, publishedAt }: { count: number, name?: string, publishedAt?: string }) => {
     const [showBio, setShowBio] = useState<boolean>(false);
     const authorNameRef = useRef<HTMLSpanElement>(null);
     const bioCardRef = useRef<HTMLDivElement>(null);
@@ -72,13 +73,13 @@ const AuthorComponent = ({ count }: { count: number }) => {
                             onClick={() => setShowBio(!showBio)}
                             onMouseEnter={() => setShowBio(true)}
                         >
-                            Cole Palmer
+                            {name ?? "Cole Palmer"}
                         </span>
                     </div>
                 </>
             )}
             
-            <div className="ml-auto text-gray-500 text-[10px]">5min ago</div>
+            <div className="ml-auto text-gray-500 text-[10px]">{publishedAt ? formatDate(publishedAt) : ""}</div>
 
             {showBio && (
                 <AuthorBioCardComponent 

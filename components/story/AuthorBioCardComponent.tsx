@@ -51,7 +51,7 @@ const AuthorBioCardComponent: React.FC<AuthorBioCardProps> = ({
     return (
         <div 
             ref={bioCardRef || undefined}
-            className="absolute z-20 top-6 left-6 p-4 w-60 shadow-md bg-white rounded-xl transition-all duration-200 ease-in-out"
+            className="absolute z-20 top-6 left-6 p-4 w-60 shadow-md bg-white rounded-2xl transition-all duration-200 ease-in-out"
             onMouseEnter={() => setShowBio(true)}
             onMouseLeave={handleMouseLeave}
         >

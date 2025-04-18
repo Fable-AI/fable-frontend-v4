@@ -116,7 +116,7 @@ const StoryCarouselComponent = ({ movies }) => {
                 //     </div>
                 //   </div>
                     <div className="story-card" key={`original-${index}`} style={{ marginBottom: `${itemMargin}px` }}>
-                        <img src="/img/placeholder.png" alt="placeholder"  className="card-image"/>                
+                        <img src={movie.image} alt="placeholder"  className="card-image"/>                
                         <div className="read-time">15m Read</div>
                         <div className="card-info">
                             <div>
@@ -144,7 +144,7 @@ const StoryCarouselComponent = ({ movies }) => {
                 //     </div>
                 //   </div>
                     <div className="story-card" key={`clone-${index}`} style={{ marginBottom: `${itemMargin}px` }}>
-                        <img src="/img/placeholder.png" alt="placeholder"  className="card-image"/>                
+                        <img src={movie.image} alt="placeholder"  className="card-image"/>                
                         <div className="read-time text-xs">15m Read</div>
                         <div className="card-info">
                             <div>

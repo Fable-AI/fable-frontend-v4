@@ -7,7 +7,7 @@ import ShareBtnComponent from '@/components/shared/ShareBtnComponent';
 import RatingBtnComponent from '@/components/shared/RatingBtnComponent';
 import Link from 'next/link';
 
-const StoryListViewComponent = ({ image, authorCount }: { image: string, authorCount: number }) => {
+const StoryListViewComponent = ({ image, authorCount, story }: { image: string, authorCount: number, story: any }) => {
 
 	return (
 		
@@ -25,33 +25,40 @@ const StoryListViewComponent = ({ image, authorCount }: { image: string, authorC
 							<polyline points="21 15 16 10 5 21" />
 						</svg>
 					</div>
-					<Image
+					{/* <Image
 						src={`${image}`}
 						alt="The deathly hallows of North Seria"
 						fill
 						className="object-cover"
+					/> */}
+					<img
+						src={`${image}`}
+						alt="story cover image"
+						// fill
+						className="object-cover rounded-xl h-full"
 					/>
 				</div>
 
 				{/* Story Content Section */}
 				<div className="flex-1">
 					{/* Author Section */}
-					<AuthorComponent count={authorCount} />
+					<AuthorComponent count={1} name={story?.user?.name} publishedAt={story?.publishedAt} />
 
 					{/* Story Title and Preview */}
 					<Link href="/read-story">
-						<h1 className="text-xl font-bold text-gray-800 mb-3 hover:underline">The deathly hallows of North Seria</h1>
+						<h1 className="text-xl font-bold text-gray-800 mb-3 hover:underline">{story?.projectTitle}</h1>
 					</Link>
 					<div className="text-gray-600 mb-6 text-xs">
-						<p>No one expected the ground to open that day.</p>
-						<p>It started as a low, distant rumble...</p>
+						<p>{story?.overview.slice(0, 200)}...</p>
 					</div>
 
 					{/* Tags */}
 					<div className="flex items-center gap-2 ">
-						<span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-[10px]">Adventure</span>
-						<span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-[10px]">Erotic</span>
-						<span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-[10px]">Fantasy</span>
+						{
+							story.genres.map(genre => (
+								<span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-[10px]">{genre?.value}</span>
+							))
+						}
 					</div>
 
 					{/* Interaction Buttons */}

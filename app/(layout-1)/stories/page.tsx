@@ -1,6 +1,6 @@
 'use client'; 
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from "next/image";
 import StoryCardComponent from '@/components/story/StoryCardComponent';
 import TopRankingStoryComponent from '@/components/story/TopRankingStoryComponent';
@@ -15,6 +15,37 @@ const StoriesPage = () => {
     const [currentView, setCurrentView] = useState<string>("list")
 
     const [activeControl, setActiveControl] = useState<'list' | 'grid'>('list');
+    const [loading, setLoading] = useState<boolean>(true);
+    const [publishedStories, setPublishedStories] = useState<[]>([]);
+
+    useEffect(() => {
+        fetchStories();
+    }, []);
+
+    const fetchStories = async (genre = "") => {
+        try {
+            let url = genre === "" ? `${process.env.NEXT_PUBLIC_BASE_URL}/stories/all` : `${process.env.NEXT_PUBLIC_BASE_URL}/stories/all?genre=${genre}`;
+            setLoading(true)
+            const res = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            const json = await res.json();
+            console.log(json);
+            let data = json?.stories;
+            if (data) {
+                setPublishedStories(data);
+            }
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return (
         <div className='min-h-screen bg-[#FBFBFB]'>
@@ -85,7 +116,7 @@ const StoriesPage = () => {
                     </div>
 
                     <div className="mt-10">
-                        <StoryCardComponent activeControl={activeControl} />                        
+                        <StoryCardComponent stories={publishedStories ?? []} activeControl={activeControl} />                        
                     </div>
                 </div>
 

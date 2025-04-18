@@ -42,8 +42,8 @@ const ShareBtnComponent = () => {
             {showShare && 
                 <div 
                 ref={shareBoxRef}
-                className="absolute top-10 left-0 w-[200px] shadow-2xl rounded-2xl bg-white z-10">
-                    <div className='p-4'>
+                className="absolute top-10 left-0 w-[200px] shadow-2xl rounded-3xl bg-white z-10">
+                    <div className='p-3'>
                         <div>
                             <h1 className='text-xs text-gray-600 mb-2'>Share Link</h1>
                             <div className="grid grid-cols-4 gap-3">
@@ -57,7 +57,7 @@ const ShareBtnComponent = () => {
                             <h1 className='text-xs text-gray-600 mb-2'>Socials</h1>
                             <div className="grid grid-cols-4 gap-3">
                                 <div className="flex items-center justify-center hover:bg-gray-200 transition-all rounded-xl">
-                                    <Image src="/icon/x.svg" alt="x icon" className="cursor-pointer" width={16} height={16} />                            
+                                    <Image src="/icon/x.svg" alt="x icon" className="cursor-pointer" width={26} height={26} />                            
                                 </div>
                                 <div className="flex items-center justify-center hover:bg-gray-200 transition-all rounded-xl">
                                     <Image src="/icon/instagram-solid.svg" alt="instagram icon" className="cursor-pointer" width={20} height={20} />                            

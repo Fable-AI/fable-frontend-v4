@@ -18,10 +18,10 @@ const LayoutOneNavComponent = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <div className='flex cursor-pointer items-center gap-3 bg-[#f9f9f9] rounded-xl p-3'>
+                    <Link href="/dashboard" className='flex cursor-pointer items-center gap-3 bg-[#f9f9f9] rounded-xl p-3 hover:bg-gray-200'>
                         <Image src="/icon/feather.svg" alt="feather icon" className=" " width={13} height={13} />
                         <p className='text-xs'>Write</p>
-                    </div>
+                    </Link>
 
                     <UserAvatarComponent
                         width={40} 

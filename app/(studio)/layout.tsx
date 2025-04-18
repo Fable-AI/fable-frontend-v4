@@ -36,10 +36,10 @@ export default function DashboardLayout({
                     </div>
 
                      <div className="flex items-center gap-3">
-                        <div className='flex cursor-pointer items-center gap-3 bg-[#f5f5f5] hover:bg-[#f4f4f4] rounded-xl p-3'>
+                        <Link href="/dashboard" className='flex cursor-pointer items-center gap-3 bg-[#f5f5f5] hover:bg-gray-200 rounded-xl p-3'>
                             <Image src="/icon/feather.svg" alt="feather icon" className=" " width={13} height={13} />
                             <p className='text-xs'>Write</p>
-                        </div>
+                        </Link>
     
                         <Image src="/avatar/male_avatar2.svg" alt="default avatar" className=" " width={40} height={40} />
                     </div>
@@ -125,10 +125,7 @@ export default function DashboardLayout({
                 </div>
 
                 {/* Main Content - takes remaining space with its own scrolling */}
-                <div className="ml-64 flex-1 p-6 overflow-y-auto">
-
-                  
-                </div>
+                <div className="ml-64 flex-1 p-6 overflow-y-auto">{children}</div>
             </div>
         </div>
     )

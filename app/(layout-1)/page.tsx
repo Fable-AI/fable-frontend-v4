@@ -13,45 +13,55 @@ import { AppContext } from "@/context/MainContext";
 export default function Home() {
 	const movies = [
 		{
-		  title: "The Shawshank Redemption",
+			title: "Cold Motion",
+			description: "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
+			rating: 4.6,
+			image: "/img/placeholder.png"
+		},
+		{
+		  title: "The Life of Kal-El",
 		  description: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-		  rating: 4.9
+		  rating: 4.9,
+		  image: "/test/superman.jpeg"
 		},
 		{
-		  title: "The Godfather",
+		  title: "Blazing Trail",
 		  description: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
-		  rating: 4.8
+		  rating: 4.8,
+		  image: "/test/dragon.png"
 		},
 		{
-		  title: "The Dark Knight",
+		  title: "Just a Joker",
 		  description: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability.",
-		  rating: 4.7
+		  rating: 4.7,
+		  image: "/test/joker.jpeg"
 		},
+
 		{
-		  title: "Pulp Fiction",
-		  description: "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-		  rating: 4.6
-		},
-		{
-		  title: "Inception",
-		  description: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-		  rating: 4.5
-		},
-		{
-		  title: "Forrest Gump",
-		  description: "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75.",
-		  rating: 4.4
-		},
-		{
-		  title: "The Matrix",
+		  title: "Life in Red",
 		  description: "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
-		  rating: 4.3
+		  rating: 4.3,
+		  image: "/test/painting.jpeg",		  
 		},
 		{
-		  title: "Goodfellas",
+			title: "The Mad Kid",
+			description: "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+			rating: 4.3,
+			image: "/test/angry-boy.jpeg",		  
+		  },
+		
+		{
+		  title: "Road to Victory",
 		  description: "The story of Henry Hill and his life in the mob, covering his relationship with his wife Karen Hill and his mob partners Jimmy Conway and Tommy DeVito.",
-		  rating: 4.2
-		}
+		  rating: 4.2,
+		  image: "/test/sea.jpeg",		  
+		},
+		{
+			title: "The Dire Menace",
+			description: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+			rating: 4.5,
+			image: "/test/wolf.png",		  
+		  },
 	];
 
     const [isMounted, setIsMounted] = useState<boolean>(false);

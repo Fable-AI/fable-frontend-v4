@@ -10,17 +10,22 @@ import ShareBtnComponent from '../shared/ShareBtnComponent';
 import RatingBtnComponent from '../shared/RatingBtnComponent';
 import Link from 'next/link';
 
-const StoryGridViewComponent = () => {
+const StoryGridViewComponent = ({ image, story }: { image: string, story: any }) => {
     return (
         <div className="w-full mb-5">
-            <AuthorComponent count={1} />
+            <AuthorComponent count={1} name={story?.user?.name} />
 
             <div className="relative w-full h-[230px] rounded-2xl overflow-hidden">        
-                <Image 
-                src={`/img/placeholder2.png`} 
+                {/* <Image 
+                src={image ?? `/img/placeholder2.png`} 
                 alt="The deathly hallows of North Seria"
                 fill
                 className="object-cover w-full"
+                /> */}
+                <img
+                    src={image ?? `/img/placeholder2.png`} 
+                    alt="story cover image"
+                    className="object-cover rounded-xl w-full"
                 />
 
                 <p className="absolute bottom-2 left-2 px-3 py-1 text-gray-50 bg-gray-800 rounded-full text-[10px]">5min ago</p>

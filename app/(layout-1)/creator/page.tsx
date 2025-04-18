@@ -28,10 +28,10 @@ const CreatorPage = () => {
                         </div>
 
                         <div className="flex items-center gap-3">
-                            <div className='flex cursor-pointer items-center gap-3 bg-[#f9f9f9] rounded-xl p-3'>
+                            <Link href="/dashboard" className='flex cursor-pointer items-center gap-3 bg-[#f9f9f9] rounded-xl p-3 hover:bg-gray-200'>
                                 <Image src="/icon/feather.svg" alt="feather icon" className=" " width={13} height={13} />
                                 <p className='text-xs'>Write</p>
-                            </div>
+                            </Link>
 
                             <Image src="/avatar/default-avatar.svg" alt="default avatar" className=" " width={40} height={40} />
                         </div>
@@ -145,7 +145,7 @@ const CreatorPage = () => {
                         </div>
 
                         <div className="mt-5">
-                            <StoryCardComponent activeControl={activeControl} />                        
+                            <StoryCardComponent stories={[]} activeControl={activeControl} />                                                
                         </div>
                     </div>
 
@@ -164,7 +164,7 @@ const CreatorPage = () => {
                                 </p>
                     
                                 <div className="flex item-center justify-between">
-                                    <button className="px-5 py-2 bg-gray-100 text-gray-800 cursor-pointer rounded-full text-[10px]">Read</button>
+                                    <button className="px-5 py-2 transition-all bg-[#D8D1DE3D] hover:bg-[#D8D1DE80] text-gray-800 cursor-pointer rounded-full text-[10px]">Read</button>
 
                                     <RatingBtnComponent />
                                 </div>
