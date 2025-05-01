@@ -1,31 +1,69 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 
 import { storyGenres } from "@/data/genres";
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import { hidePageLoader, showPageLoader } from '@/lib/helper';
+import axiosInterceptorInstance from '@/axiosInterceptorInstance';
+import { UserInterface } from '@/interfaces/UserInterface';
 
 
 interface Props {
     setCurrentOnboardingStep: React.Dispatch<React.SetStateAction<number>>;   
+    user: UserInterface|null;   
+    getAuthor: () => void;
 }
 
 const GenreChoiceComponent: React.FC<Props> = ({
-    setCurrentOnboardingStep
+    setCurrentOnboardingStep,
+    user,
+    getAuthor
 }) => {
 
-    const [selectedGenres, setSelectedGenres] = useState([]);
+    const [selectedGenres, setSelectedGenres] = useState<string[]>(user?.info?.favoriteGenre ?? []);
 
-    const handleGenreChange = (genreLabel) => {
-        setSelectedGenres(prev => {
+    useEffect(() => {
+        setSelectedGenres(user?.info?.favoriteGenre ?? [])
+    }, [])
+
+    const handleGenreChange = (genreLabel: string) => {        
+        setSelectedGenres((prev: any) => {
             if (prev.includes(genreLabel)) {
-                return prev.filter(g => g !== genreLabel);
+                return prev.filter((g: string) => g !== genreLabel);
             } else {
                 return [...prev, genreLabel];
             }
         });
     };
+
+    const saveGenreChoices = async () => {
+        if (selectedGenres.length < 1) {
+            setCurrentOnboardingStep(3);            
+            return;
+        }
+        
+        try {
+            let url = `${process.env.NEXT_PUBLIC_BASE_URL}/users`;
+            showPageLoader()
+            const response = await axiosInterceptorInstance.put(url, 
+                {
+                    favoriteGenre: selectedGenres,
+                }
+            );
+
+            if (response) {
+                getAuthor();
+                setCurrentOnboardingStep(3);
+            }
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            hidePageLoader();
+        }
+    }
     
     return (
         <div className="w-full max-w-6xl py-12 grid grid-cols-12 gap-20 rounded-2xl overflow-hidden ">
@@ -91,7 +129,7 @@ const GenreChoiceComponent: React.FC<Props> = ({
                             </button>
 
                             <button
-                                onClick={() => setCurrentOnboardingStep(3)}
+                                onClick={saveGenreChoices}
                                 className="flex items-center gap-3 py-3 px-5 cursor-pointer transition-all bg-[#33164C] hover:bg-purple-800 text-white text-xs rounded-2xl"
                             >
                                 <span>Next</span>

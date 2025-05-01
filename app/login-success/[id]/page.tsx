@@ -1,6 +1,6 @@
 "use client";
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, use } from 'react'
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -13,13 +13,17 @@ interface Props {
     };
 }
 
-const LoginSuccessPage = ({params: {id}}: Props) => {
+const LoginSuccessPage = ({ params }: { params: Promise<{ id: string }> }) => {
+    const { id } = use(params); 
     const decodedId = decodeURIComponent(id);
 
     const [authenticated, setAuthenticated] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
+    const [userType, setUserType] = useState<string>("");
+    
         const { 
-            firstTimeLogin, setFirstTimeLogin      
+            firstTimeLogin, setFirstTimeLogin,
+            setUser      
         } = useContext(AppContext);
         
     useEffect(() => {
@@ -50,9 +54,14 @@ const LoginSuccessPage = ({params: {id}}: Props) => {
             setAuthenticated(true);
             sessionStorage.setItem("token", token);    
             sessionStorage.setItem("user", JSON.stringify(user));  
+            localStorage.setItem("token", token);    
+            localStorage.setItem("user", JSON.stringify(user));  
             
             const firstTimeLoginForUser = user?.firstTimeLogin
             setFirstTimeLogin(firstTimeLoginForUser)
+            setUser(user)
+            setUserType(user?.userType);
+
         } catch (error) {
             console.error(error);            
         }finally{
@@ -64,13 +73,10 @@ const LoginSuccessPage = ({params: {id}}: Props) => {
         if (firstTimeLogin) {            
             window.location.href = '/on-boarding';
         }
-        if (!firstTimeLogin) {            
-            window.location.href = '/stories';
+        if (!firstTimeLogin) {              
+            window.location.href = userType === "reader" ? "/stories" : "/dashboard";
         }
     }
-    const routeToArticles = () => window.location.href = '/dashboard/articles';
-    const routeToArticlesLandingPage = () => window.location.href = '/';
-    
 
 
     if (loading) {

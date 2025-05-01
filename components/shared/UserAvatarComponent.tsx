@@ -46,7 +46,7 @@ export const UserAvatarComponent = ({
                 alt="User avatar"
                 width={width}
                 height={height}
-                className={`border-2 border-white ${borderRadius ?? 'rounded-xl'} ${imageMargin}`}
+                className={`${borderRadius ?? 'rounded-xl'} ${imageMargin}`}
             />}
         </>
     )

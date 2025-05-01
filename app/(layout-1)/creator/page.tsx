@@ -1,17 +1,20 @@
 "use client";  
 
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Link from 'next/link';
 import Image from "next/image";
 import StoryCardComponent from '@/components/story/StoryCardComponent';
 import RatingBtnComponent from '@/components/shared/RatingBtnComponent';
 import { UserAvatarComponent } from '@/components/shared/UserAvatarComponent';
 import AuthorComponent from '@/components/story/AuthorComponent';
+import { AppContext } from '@/context/MainContext';
 
 const CreatorPage = () => {
-       const [activeControl, setActiveControl] = useState<'list' | 'grid'>('list');
-       const [activeTab, setActiveTab] = useState<'stories' | 'articles' | 'featured'>('stories');
-       
+    const [activeControl, setActiveControl] = useState<'list' | 'grid'>('list');
+    const [activeTab, setActiveTab] = useState<'stories' | 'articles' | 'featured'>('stories');
+    
+        const { isLoggedIn, setIsLoggedIn, user, setUser } = useContext(AppContext)
+    
     return (
         <div className='min-h-screen bg-[#FBFBFB]'>
             <nav className='fixed top-0 h-[180px] left-0 w-full z-20 px-7 pt-7 backdrop-blur-sm'>
@@ -31,9 +34,17 @@ const CreatorPage = () => {
                             <Link href="/dashboard" className='flex cursor-pointer items-center gap-3 bg-[#f9f9f9] rounded-xl p-3 hover:bg-gray-200'>
                                 <Image src="/icon/feather.svg" alt="feather icon" className=" " width={13} height={13} />
                                 <p className='text-xs'>Write</p>
+
                             </Link>
 
-                            <Image src="/avatar/default-avatar.svg" alt="default avatar" className=" " width={40} height={40} />
+                            {/* <Image src={ user?.imageUrl ?? "/avatar/default-avatar.svg" } alt="default avatar" className=" " width={40} height={40} /> */}
+                            <UserAvatarComponent
+                                width={40} 
+                                height={40} 
+                                borderRadius='rounded-xl' 
+                                isDouble={false}             
+                                imageUrl={ user?.imageUrl ?? "/avatar/male_avatar2.svg" }
+                            /> 
                         </div>
                     </div>
                 </div>

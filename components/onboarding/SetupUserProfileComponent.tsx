@@ -1,49 +1,171 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
+import DatePickerComponent from '../shared/DatePickerComponent';
+import axios from 'axios';
+import FormData from 'form-data';
+import { toast } from "sonner"
+import axiosInterceptorInstance from '@/axiosInterceptorInstance';
+import { UserInterface } from '@/interfaces/UserInterface';
+import { convertToISODate } from '@/lib/date';
+import { hidePageLoader, showPageLoader } from '@/lib/helper';
 
-
+interface SaveProfileImageInterface {
+    signature: string;
+    publicId: string;
+    imageUrl: string;
+    metaData: any;
+}
 interface Props {
-    setCurrentOnboardingStep: React.Dispatch<React.SetStateAction<number>>;   
+    setCurrentOnboardingStep: React.Dispatch<React.SetStateAction<number>>;
+    user: UserInterface|null;
+    getAuthor: () => void;
 }
 
 const SetupUserProfileComponent: React.FC<Props> = ({
-    setCurrentOnboardingStep
+    setCurrentOnboardingStep,
+    user,
+    getAuthor
 }) => {
-    const [formData, setFormData] = useState({
-		username: '',
-		dateOfBirth: '',
-		email: '',
-		profileImage: null
-	});
 
-	const [imagePreview, setImagePreview] = useState(null);
+    const [dateOfBirth, setDateOfBirth] = useState<string>('');
+    // convertToReadableDate
 
-	const handleInputChange = (e) => {
-		const { name, value } = e.target;
-		setFormData(prev => ({ ...prev, [name]: value }));
-	};
+    const [username, setUsername] = useState<string>(user?.name ?? "");
+    const [email, setEmail] = useState<string>(user?.email ?? '');
+    const [profileImage, setProfileImage] = useState<string>('');
 
-	const handleImageUpload = (e) => {
-		const file = e.target.files[0];
-		if (file) {
-			const reader = new FileReader();
-			reader.onload = (e) => {
-				setImagePreview(e.target.result);
-			};
-			reader.readAsDataURL(file);
-			setFormData(prev => ({ ...prev, profileImage: file }));
-		}
-	};
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		// Handle form submission logic here
-		console.log("Form submitted:", formData);
-		// Proceed to next step
-	};
+    const [imagePreview, setImagePreview] = useState<string|null>(user?.imageUrl ?? null);
+    const [imagePublicId, setImagePublicId] = useState<string>("");
+    const [imageSignature, setImageSignature] = useState<string>("");
+    const [imageId, setImageId] = useState<string>("");
     
+
+    useEffect(() => {
+        setImagePreview(user?.imageUrl ?? null)        
+    }, []);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        // setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setImagePreview(e.target.result);
+            };
+            reader.readAsDataURL(file);
+            // setFormData(prev => ({ ...prev, profileImage: file }));
+            setProfileImage(file)
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (profileImage) {            
+            await uploadImage(profileImage);
+        }
+        
+        let updated = await updateUserInformation()
+        
+        await getAuthor()
+        // Proceed to next step
+        setCurrentOnboardingStep(2)
+    };
+
+    const updateUserInformation = async () => {
+        if(!validateForm()) return;
+        try {
+            let url = `${process.env.NEXT_PUBLIC_BASE_URL}/users`;
+            showPageLoader()
+            const response = await axiosInterceptorInstance.put(url, 
+                {
+                    name: username,
+                    email,
+                    dateOfBirth: convertToISODate(dateOfBirth)    
+                }
+            );
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            hidePageLoader();
+        }
+    }
+
+    const validateForm = () => {
+        if (!username) {
+            toast("Username is required");
+            return false;
+        }
+
+        return true;
+    }
+
+
+    const uploadImage = async (file: any) => {
+        try {
+            showPageLoader()
+
+            const preset_key: string = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_KEY ?? "" as string
+            const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+
+            if (file && preset_key && cloudName) {
+                const formData = new FormData();
+                formData.append("file", file)
+                formData.append("upload_preset", preset_key)
+
+                let res = await axios.post(
+                    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                    formData
+                )
+                console.log("Image: ", res);
+                setImageId(res?.data?.secure_url)
+                setImageSignature(res?.data?.signature)
+                setImagePublicId(res?.data?.public_id)
+
+                let imageSaved = await saveProfileImageToDB({
+                    signature: res?.data?.signature,
+                    publicId: res?.data?.public_id,
+                    imageUrl: res?.data?.secure_url,
+                    metaData: res?.data
+                });
+
+                toast("Profile image uploaded successfully", {
+                    description: "Sunday, December 03, 2023 at 9:00 AM",
+                });
+
+                return res?.data?.secure_url
+            };
+        } catch (error) {
+            console.log(error)
+        }  finally {
+            hidePageLoader();
+        }
+    }
+
+
+    const saveProfileImageToDB = async (payload: SaveProfileImageInterface) => {
+
+		let body = { ...payload, 
+			ownerType: "User",
+			description: "profile-image",
+			source: "uploaded"
+		}
+        
+		try {
+			const updated = await axiosInterceptorInstance.post(`/images`, body);
+		} catch (error) {
+			console.error(error);			
+		}
+	}
+
+
     return (
         <div className="w-full max-w-6xl flex rounded-2xl overflow-hidden ">
 
@@ -108,36 +230,21 @@ const SetupUserProfileComponent: React.FC<Props> = ({
                                 type="text"
                                 name="username"
                                 placeholder="@Username"
-                                className="w-full bg-transparent text-xs focus:outline-none text-gray-500"
-                                value={formData.username}
-                                onChange={handleInputChange}
+                                className="w-full bg-transparent text-sm focus:outline-none text-gray-500"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value) }
                             />
                         </div>
                     </div>
 
+                    <DatePickerComponent 
+                        initialValue={user?.dateOfBirth ?? ""} 
+                        setDisplayValue={setDateOfBirth}
+                        displayValue={dateOfBirth}
+                    />
+                    
                     <div className="space-y-2">
-                        <label className="block text-sm text-gray-600">Date of birth</label>
-                        <div className="flex items-center p-3 rounded-lg bg-gray-100">
-                            <Image
-                                src="/icon/calendar.svg"
-                                alt="calendar icon"
-                                className="mr-2"
-                                width={20}
-                                height={20}
-                            />
-                            <input
-                                type="text"
-                                name="dateOfBirth"
-                                placeholder="April, 4th 1998"
-                                className="w-full bg-transparent text-xs focus:outline-none text-gray-500"
-                                value={formData.dateOfBirth}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="space-y-2">
-                        <label className="block text-sm text-gray-600">Email</label>
+                        <label className="block text-sm text-gray-600">Email <span className="text-[10px]">(Optional)</span></label>
                         <div className="flex items-center p-3 rounded-lg bg-gray-100">
                             <Image
                                 src="/icon/email.svg"
@@ -150,16 +257,17 @@ const SetupUserProfileComponent: React.FC<Props> = ({
                                 type="email"
                                 name="email"
                                 placeholder="example@gmail.com"
-                                className="w-full bg-transparent focus:outline-none text-xs text-gray-500"
-                                value={formData.email}
-                                onChange={handleInputChange}
+                                className="w-full bg-transparent focus:outline-none text-sm text-gray-500"
+                                value={email}
+                                // onChange={handleInputChange}
+                                onChange={(e) => setEmail(e.target.value) }
                             />
                         </div>
                     </div>
 
                     <div className="mt-10 flex items-center justify-between">
                         <button
-                            onClick={() => setCurrentOnboardingStep(2)}
+                            // onClick={() => setCurrentOnboardingStep(2)}
                             type="submit"
                             className="flex items-center gap-3 py-3 px-5 cursor-pointer transition-all bg-[#33164C] hover:bg-purple-800 text-white text-xs rounded-2xl"
                         >

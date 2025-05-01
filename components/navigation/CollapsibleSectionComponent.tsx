@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const CollapsibleSectionComponent = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +45,7 @@ const CollapsibleSectionComponent = () => {
                 }}
             >
                 <div className="bg-white p-2 rounded-2xl">
-                    <div className='flex gap-2 p-1 bg-[#f5f5f5] rounded-xl mb-3 cursor-pointer'>
+                    <Link href="/dashboard/write-original-story"  className='flex gap-2 p-1 bg-[#f5f5f5] rounded-xl mb-3 cursor-pointer border transition-all border-[#f5f5f5] hover:border-gray-200'>
                         <div className='bg-[#101010] flex items-center justify-center p-2 rounded-lg'>
                             <Image src="/icon/pen.svg" alt="generate icon" width={17} height={17} />
                         </div>
@@ -52,9 +53,9 @@ const CollapsibleSectionComponent = () => {
                             <p className="text-xs">Original</p>
                             <p className="text-[9px] font-light text-gray-600">Write original stories.</p>
                         </div>
-                    </div>
+                    </Link>
 
-                    <div className='flex gap-2 p-1 bg-[#f5f5f5] rounded-xl cursor-pointer'>
+                    <Link href="/dashboard/write-ai-story" className='flex gap-2 p-1 bg-[#f5f5f5] rounded-xl cursor-pointer border transition-all border-[#f5f5f5] hover:border-gray-200'>
                         <div className='flex items-center justify-center p-2 rounded-lg bg-gradient-to-br from-[#AA4A41] to-[#33164C]'>
                             <Image src="/icon/magic-pen.svg" alt="generate icon" width={17} height={17} />
                         </div>
@@ -62,7 +63,7 @@ const CollapsibleSectionComponent = () => {
                             <p className="text-xs">With AI</p>
                             <p className="text-[9px] font-light text-gray-600">Leverage our AI tool.</p>
                         </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
         </div>

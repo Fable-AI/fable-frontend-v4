@@ -4,7 +4,10 @@ import "./globals.css";
 import {WalletComponent} from '@/components/wallet/WalletComponent';
 import CustomContext from "@/context/CustomContext";
 import "./css/style.css";
+import "./css/loader.css";
 import NextTopLoader from "nextjs-toploader";
+import FullPageLoader from "@/components/shared/FullPageLoader";
+import { Toaster } from "@/components/ui/sonner"
 
 const nunitoSans = Nunito_Sans({
   variable: "--font-nunito-sans",
@@ -49,6 +52,9 @@ export default function RootLayout({
             showAtBottom={false}
             />     
             {children}
+
+            <FullPageLoader />
+            <Toaster />
           </CustomContext>        
         </WalletComponent>
         

@@ -1,12 +1,16 @@
 "use client"
 
-import React from 'react'
+import React, { useContext } from 'react'
 import Link from 'next/link';
 import Image from "next/image";
 import SearchBoxComponent from './SearchBoxComponent';
 import { UserAvatarComponent } from '../shared/UserAvatarComponent';
+import { AppContext } from '@/context/MainContext';
 
 const LayoutOneNavComponent = () => {
+
+    const { isLoggedIn, setIsLoggedIn, user, setUser } = useContext(AppContext)
+    
     return (
         <div className='flex justify-center w-full'>
             <div className='flex relative items-center justify-between gap-20 bg-white p-4 rounded-3xl'>
@@ -28,7 +32,7 @@ const LayoutOneNavComponent = () => {
                         height={40} 
                         borderRadius='rounded-xl' 
                         isDouble={false}             
-                        imageUrl="/avatar/male_avatar2.svg"
+                        imageUrl={ user?.imageUrl ?? "/avatar/male_avatar2.svg" }
                     /> 
                 </div>
             </div>

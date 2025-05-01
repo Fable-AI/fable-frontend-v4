@@ -4,19 +4,29 @@ import React, { useState } from 'react';
 import { ChevronUp, Check } from 'lucide-react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { hidePageLoader, showPageLoader } from '@/lib/helper';
+import axiosInterceptorInstance from '@/axiosInterceptorInstance';
+import { useRouter } from 'next/navigation'
+import { UserInterface } from '@/interfaces/UserInterface';
 
 
 interface Props {
     setCurrentOnboardingStep: React.Dispatch<React.SetStateAction<number>>;
+    user: UserInterface|null;
+    getAuthor: () => void;
 }
 
 const UserTypeSelection: React.FC<Props> = ({
-    setCurrentOnboardingStep
+    setCurrentOnboardingStep,
+    user,
+    getAuthor
 }) => {
-    const [selectedType, setSelectedType] = useState('');
+    const [selectedType, setSelectedType] = useState<string>(user?.userType ?? '');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedCreatorTypes, setSelectedCreatorTypes] = useState([]);
+    const [selectedCreatorTypes, setSelectedCreatorTypes] = useState(user?.info?.typeOfCreator ?? []);
 
+    const router = useRouter();
+    
     const creatorTypes = [
         { id: 'hobbyist', label: 'Hobbyist' },
         { id: 'student', label: 'Student' },
@@ -25,7 +35,7 @@ const UserTypeSelection: React.FC<Props> = ({
         { id: 'journalist', label: 'Journalist' },
     ];
 
-    const handleTypeSelect = (type) => {
+    const handleTypeSelect = (type: strings) => {
         setSelectedType(type);
         if (type !== 'creator') {
             setIsDropdownOpen(false);
@@ -45,6 +55,40 @@ const UserTypeSelection: React.FC<Props> = ({
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
+
+    const saveUserRole = async () => {
+        // if (selectedVibes.length < 1) {
+        //     setCurrentOnboardingStep(4);            
+        //     return;
+        // }
+        
+        try {
+            let url = `${process.env.NEXT_PUBLIC_BASE_URL}/users`;
+            showPageLoader()
+            const response = await axiosInterceptorInstance.put(url, 
+                {
+                    userType: selectedType,
+                    typeOfCreator: selectedCreatorTypes,
+                    firstTimeLogin: "false"
+                }
+            );
+
+            if (response) {
+                getAuthor();
+                
+                if (selectedType === "reader") {                    
+                    router.push("/stories")
+                }else{
+                    router.push("/dashboard")
+                }
+            }
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            hidePageLoader();
+        }
+    }
 
     return (
         <div className="max-w-2xl mx-auto pb-12 px-4">
@@ -156,15 +200,15 @@ const UserTypeSelection: React.FC<Props> = ({
                         <ArrowLeft size={16} />
                     </button>
 
-                    <Link href="/stories">
+                    {/* <Link href="/stories"> */}
                         <button
-                            onClick={() => setCurrentOnboardingStep(4)}
+                            onClick={saveUserRole}
                             className="flex items-center gap-3 py-3 px-5 cursor-pointer transition-all bg-[#33164C] hover:bg-purple-800 text-white text-xs rounded-2xl"
                         >
                             <span>Get in</span>
                             <ArrowRight size={16} />
                         </button>
-					</Link>
+					{/* </Link> */}
 
                 </div>
 

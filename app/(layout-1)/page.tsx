@@ -9,6 +9,8 @@ import * as Typewriter from "react-effect-typewriter";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "@/context/MainContext";
+import StoryVerticalCarouselComponent from "@/components/StoryVerticalCarouselComponent";
+import { UserAvatarComponent } from "@/components/shared/UserAvatarComponent";
 
 export default function Home() {
 	const movies = [
@@ -115,13 +117,25 @@ export default function Home() {
 							{ !isLoggedIn && <LoginComponent /> }
 
 							{
-								<Link href="/on-boarding">
+								isLoggedIn && 
+								<Link href="/dashboard" className='flex items-center py-4 cursor-pointer px-5 gap-3 rounded-xl bg-gradient-to-r from-[#AA4A41] to-[#33164C] hover:to-[#AA4A41] hover:from-[#33164C] transition-all duration-500'>
+									<UserAvatarComponent
+										width={25} 
+										height={25} 
+										borderRadius='rounded-lg'            
+										imageUrl="/avatar/male_avatar1.svg"
+									/>
+									<p className="text-white font-semibold">Dashboard</p>
+								</Link>
+							}
+							{
+								<Link href="/stories">
 									<div className="flex ">
-										<div className="bg-[#D8D1DE3D] cursor-pointer border  flex items-center p-3 gap-2 rounded-xl border-gray-50 hover:border-gray-200">
-											<div className="stories-btn text-xs">
+										<div className="bg-[#D8D1DE3D] cursor-pointer border  flex items-center px-4 py-4 gap-2 rounded-xl border-gray-50 hover:bg-gray-200">
+											<div className="stories-btn text-sm">
 												See Stories
 											</div>
-											<div className="year-indicator bg-white text-lg rounded-lg px-2 font-semibold">200</div>
+											<div className="year-indicator bg-white text-lg rounded-3xl px-2 font-semibold">200</div>
 										</div>
 									</div>
 								</Link>
@@ -137,7 +151,9 @@ export default function Home() {
 
 			</section>
 
-			
+			<section className="mt-38 px-20">
+				<StoryVerticalCarouselComponent movies={movies}/>
+			</section>
 		</div>
 	);
 }
